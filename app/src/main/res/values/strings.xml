@@ -5,10 +5,7 @@
     <string name="nome">Nome</string>
     <string name="email">E-mail</string>
     <string name="telefone">Telefone</string>
+    <string name="adicionar_contato">Adicionar</string>
     <string name="salvar_contato">Salvar</string>
     <string name="excluir_contato">Excluir</string>
-    <string name="contato_adicionado">Contato adicionado</string>
-    <string name="contato_nao_encontrado">Contato não encontrado</string>
-    <string name="contato_alterado">Contato alterado</string>
-    <string name="contato_excluido">Contato excluído</string>
 </resources>

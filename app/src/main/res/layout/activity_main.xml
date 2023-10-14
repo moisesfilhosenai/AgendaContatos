@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat" />
+            style="@style/MyToolbarStyle" />
 
     </com.google.android.material.appbar.AppBarLayout>
     
@@ -27,18 +27,9 @@
         android:id="@+id/contatos_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:backgroundTint="?attr/colorPrimary"
-        android:layout_margin="20dp"
-        android:src="@drawable/baseline_person_add_24"
-        style="@style/MyFab"/>
-    
+
     <TextView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"

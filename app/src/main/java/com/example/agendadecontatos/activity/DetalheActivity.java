@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.agendadecontatos.R;
 import com.example.agendadecontatos.data.ContatoDAO;
@@ -34,19 +35,8 @@ public class DetalheActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.et_email);
         etTelefone = findViewById(R.id.et_telefone);
 
-        if (getIntent().hasExtra("contato")) {
-            this.contato = (Contato) getIntent().getSerializableExtra("Contato");
+        editarContato();
 
-            etNome.setText(this.contato.getNome());
-            etEmail.setText(this.contato.getEmail());
-            etTelefone.setText(this.contato.getFone());
-
-            int pos = this.contato.getNome().indexOf(" ");
-            if (pos == -1) {
-                pos = this.contato.getNome().length();
-            }
-            setTitle(this.contato.getNome().substring(0, pos));
-        }
         this.contatoDAO = new ContatoDAO(this);
     }
 
@@ -70,24 +60,49 @@ public class DetalheActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void salvar() {
+    private void editarContato() {
+        if (getIntent().hasExtra("contato")) {
+            this.contato = (Contato) getIntent().getSerializableExtra("contato");
+
+            etNome.setText(this.contato.getNome());
+            etEmail.setText(this.contato.getEmail());
+            etTelefone.setText(this.contato.getFone());
+
+            int pos = this.contato.getNome().indexOf(" ");
+            if (pos == -1) {
+                pos = this.contato.getNome().length();
+            }
+            setTitle(this.contato.getNome().substring(0, pos));
+        }
+    }
+
+    private void salvar() {
+        String mensagem = "Contato atualizado com sucesso";
+
         if (this.contato == null) {
             this.contato = new Contato();
+            mensagem = "Contato criado com sucesso";
         }
         this.contato.setNome(etNome.getText().toString());
         this.contato.setFone(etTelefone.getText().toString());
         this.contato.setEmail(etEmail.getText().toString());
 
         this.contatoDAO.salvarContato(contato);
+
+        Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
+
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
         finish();
     }
 
-    public void apagar() {
+    private void apagar() {
         this.contatoDAO.apagarContato(this.contato);
+
+        Toast.makeText(this, "Contato removido com sucesso", Toast.LENGTH_LONG).show();
+
         Intent intent = new Intent();
-        setResult(3, intent);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

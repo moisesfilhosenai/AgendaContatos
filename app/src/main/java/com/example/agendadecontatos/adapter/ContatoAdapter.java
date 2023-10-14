@@ -43,6 +43,10 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
         return this.contatos.size();
     }
 
+    public void setClickListener(ItemClickListener itemClickListener) {
+        clickListener = itemClickListener;
+    }
+
     public class ContatoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final TextView nome;
 

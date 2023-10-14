@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.MainActivity">
     <item
-        android:id="@+id/pesquisa_contato"
+        android:id="@+id/adicionar_contato"
         app:showAsAction="ifRoom"
-        android:title="@string/nome_contato"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        android:title="@string/adicionar_contato"
+        android:icon="@drawable/baseline_person_add_24" />
 </menu>

@@ -1,17 +1,21 @@
 package com.example.agendadecontatos.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.agendadecontatos.R;
 import com.example.agendadecontatos.adapter.ContatoAdapter;
@@ -29,8 +33,20 @@ public class MainActivity extends AppCompatActivity {
     private List<Contato> contatos = new ArrayList<>();
     private TextView tvEmpty;
     private ContatoAdapter contatoAdapter;
-    private SearchView searchView;
-    private FloatingActionButton fab;
+
+    /**
+     * Trata o evento da Tela de Detalhes
+     */
+    ActivityResultLauncher<Intent> startActivityIntent  = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    if (o.getResultCode() == RESULT_OK) {
+                        atualizarListaContatos("");
+                    }
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,41 +66,52 @@ public class MainActivity extends AppCompatActivity {
         contatoAdapter = new ContatoAdapter(this.contatos, this);
         recyclerView.setAdapter(contatoAdapter);
 
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DetalheActivity.class);
-                startActivityForResult(intent, 1);
-            }
-        });
-        updateUI(null);
+        editarContato();
+        atualizarListaContatos("");
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                updateUI(null);
-            }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.adicionar_contato) {
+            Intent intent = new Intent(getApplicationContext(), DetalheActivity.class);
+            startActivityIntent.launch(intent);
         }
-        if (requestCode == 2) {
-            if (resultCode == RESULT_OK) {
+        return super.onOptionsItemSelected(item);
+    }
 
-            }
-        }
-        if (requestCode == 3) {
-
+    private void verificarListaSemContatos() {
+        if (this.contatos.size() == 0) {
+            tvEmpty.setVisibility(View.VISIBLE);
+        } else {
+            tvEmpty.setVisibility(View.GONE);
         }
     }
 
-    public void updateUI(String nomeContato) {
+    private void atualizarListaContatos(String nomeContato) {
         contatos.clear();
-        if (nomeContato == null) {
+        if (nomeContato.isEmpty()) {
             contatos.addAll(this.contatoDAO.buscarTodosContatos());
         }
         recyclerView.getAdapter().notifyDataSetChanged();
+        verificarListaSemContatos();
+    }
+
+    private void editarContato() {
+        contatoAdapter.setClickListener(new ContatoAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                final Contato contato = contatos.get(position);
+
+                Intent intent = new Intent(getApplicationContext(), DetalheActivity.class);
+                intent.putExtra("contato", contato);
+                startActivityIntent.launch(intent);
+            }
+        });
     }
 }

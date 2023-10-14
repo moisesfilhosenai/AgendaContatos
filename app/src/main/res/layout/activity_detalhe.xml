@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat" />
+            style="@style/MyToolbarStyle" />
 
     </com.google.android.material.appbar.AppBarLayout>
     
@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_margin="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         
         <TextView
