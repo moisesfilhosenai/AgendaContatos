@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="24dp"
+    android:background="#fff" >
+
+    <ImageView
+        android:id="@+id/size"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:layout_margin="50dp"
+        android:src="@drawable/contatos" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textSize="40sp"
+        android:gravity="center_horizontal"
+        android:layout_weight="0.3"
+        android:text="@string/meus_contatos" />
+
+</LinearLayout>
